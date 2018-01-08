@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">gurasApp</string>
-    <string name="text">Hola</string>
+    <string name="text">Kaixo</string>
     <string name="es_button">ES</string>
     <string name="eu_button">EU</string>
 </resources>
