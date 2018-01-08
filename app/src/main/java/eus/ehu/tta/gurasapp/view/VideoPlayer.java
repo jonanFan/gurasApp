@@ -34,6 +34,7 @@ public class VideoPlayer {
 
         controller.setAnchorView(video);
         video.setMediaController(controller);
+        //video.seekTo(0); //Se puede usar para poner como preview una parte del video
         return video;
     }
 }

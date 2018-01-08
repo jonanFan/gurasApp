@@ -4,4 +4,7 @@
     <string name="text">Kaixo</string>
     <string name="es_button">ES</string>
     <string name="eu_button">EU</string>
+    <string name="login_button">Hasi saioa</string>
+    <string name="register_button">Erregistratu</string>
+    <string name="intro_video">https://www.w3schools.com/html/mov_bbb.mp4</string>
 </resources>
