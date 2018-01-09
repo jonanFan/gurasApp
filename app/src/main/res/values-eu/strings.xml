@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">gurasApp</string>
-    <string name="text">Kaixo</string>
+
+    <string name="name">Izena</string>
+    <string name="email">Emaila</string>
+    <string name="password">Pasahitza</string>
+    <string name="remember_user">Gogoratu sesioa</string>
+    <string name="not_filled">Datu guztiak sartu behar dira</string>
+    <string name="incorrect_email">Email-ak ez du balio</string>
+
+
+    <!--Buttons-->
     <string name="es_button">ES</string>
     <string name="eu_button">EU</string>
     <string name="login_button">Hasi saioa</string>
     <string name="register_button">Erregistratu</string>
+
+    <!--URL-->
     <string name="intro_video">https://www.w3schools.com/html/mov_bbb.mp4</string>
 </resources>

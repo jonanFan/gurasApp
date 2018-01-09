@@ -15,8 +15,8 @@ import eus.ehu.tta.gurasapp.presentation.Data;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    protected final static String EUSKERA = "eu";
-    protected final static String CASTELLANO = "es";
+    private final static String EUSKERA = "eu";
+    private final static String CASTELLANO = "es";
 
     private final static String EXTRA_DATA = "eus.ehu.tta.gurasapp.data";
 
@@ -61,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private void setLocale(String lang) { // TODO PREGUNTAR A GORKA
+    private void setLocale(String lang) {
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
