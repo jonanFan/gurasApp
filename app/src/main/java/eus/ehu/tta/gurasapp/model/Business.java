@@ -21,12 +21,7 @@ public class Business implements BusinessInterface {
     @Override
     public boolean login(String login, String password) {
 
-        if (login == null || password == null)
-            return false;
+        return !(login == null || password == null) && login.compareTo("jj0") == 0 && password.compareTo("1234") == 0;
 
-        if (login.compareTo("jj0") == 0)
-            return true;
-        else
-            return false;
     }
 }

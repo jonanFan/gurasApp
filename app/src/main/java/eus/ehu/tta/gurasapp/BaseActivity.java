@@ -12,14 +12,16 @@ import java.util.Locale;
 
 import eus.ehu.tta.gurasapp.model.Business;
 import eus.ehu.tta.gurasapp.presentation.Data;
+import eus.ehu.tta.gurasapp.presentation.Preferences;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    protected final static String GURASAPP_ACTIVITY_TAG = "gurasAppActivityTag";
 
     private final static String EUSKERA = "eu";
     private final static String CASTELLANO = "es";
 
     private final static String EXTRA_DATA = "eus.ehu.tta.gurasapp.data";
-
 
     protected Data data;
     protected Business business;
@@ -34,12 +36,25 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         business = new Business();
 
-        if (data.getLanguage() != null)
-            setLocale(data.getLanguage());
+        String lang = Preferences.getLanguage(this);
+        if (lang != null)
+            setLocale(lang);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate(); //TODO ÑAPA FEA PARA ASEGURAR EL IDIOMA, PREGUNTAR A GORKA
     }
 
     protected <T> void startBaseActivity(Class<T> tClass) {
         Intent intent = newIntent(tClass);
+        startActivity(intent);
+    }
+
+    protected <T> void startBaseActivityWithFlags(Class<T> tClass, int flags) {
+        Intent intent = newIntent(tClass);
+        intent.setFlags(flags);
         startActivity(intent);
     }
 
@@ -54,9 +69,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         return intent;
     }
 
-    private void setLanguage(String lang) {
-        if (data.getLanguage() == null || data.getLanguage().compareTo(lang) != 0) {
-            data.putLanguage(lang);
+    protected void setLanguage(String lang) {
+        String storedLang = Preferences.getLanguage(this);
+        if (lang != null && (storedLang == null || lang.compareTo(storedLang) != 0)) {
+            Preferences.setLanguage(this, lang);
             recreate();
         }
     }

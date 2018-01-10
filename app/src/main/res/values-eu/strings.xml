@@ -8,6 +8,16 @@
     <string name="remember_user">Gogoratu sesioa</string>
     <string name="not_filled">Datu guztiak sartu behar dira</string>
     <string name="incorrect_email">Email-ak ez du balio</string>
+    <string name="already_user">Erabiltzailea erabilita dago</string>
+    <string name="bad_login">Erabiltzaile edo pasahitza okerra</string>
+    <string name="wait_login">Sesioa hasten…</string>
+
+    <string name="subject_1">MATEMATIKA</string>
+    <string name="subject_1_topic">Zatitzaile eta Multiploak</string>
+    <string name="subject_2">NATUR ZIENTZIAK</string>
+    <string name="subject_2_topic">Ugaltze aparatua</string>
+    <string name="forums">FORUAK</string>
+    <string name="forum_question">Galdera/Erantzunak</string>
 
 
     <!--Buttons-->

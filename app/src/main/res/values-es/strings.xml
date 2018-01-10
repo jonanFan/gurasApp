@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">gurasApp</string>
+
+    <string name="name">Nombre</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="remember_user">Recordar usuario</string>
+    <string name="not_filled">Se han de rellenar todos los campos</string>
+    <string name="incorrect_email">Email no valido</string>
+    <string name="already_user">Usuario ya existe</string>
+    <string name="bad_login">Login incorrecto</string>
+    <string name="wait_login">Iniciando sesion…</string>
+
+    <string name="subject_1">MATEMATICA</string>
+    <string name="subject_1_topic">Multiplos y divisores</string>
+    <string name="subject_2">CIENCIAS NATURALES</string>
+    <string name="subject_2_topic">Aparato reproductor</string>
+    <string name="forums">FOROS</string>
+    <string name="forum_question">Preguntas/Respuestas</string>
+
+
+    <!--Buttons-->
+    <string name="es_button">ES</string>
+    <string name="eu_button">EU</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Registrar</string>
+
+    <!--URL-->
+    <string name="intro_video">https://www.w3schools.com/html/mov_bbb.mp4</string>
+
+</resources>

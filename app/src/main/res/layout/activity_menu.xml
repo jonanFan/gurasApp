@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="eus.ehu.tta.gurasapp.MenuActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/languageLayout"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/subject_1"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:background="@color/colorAccent"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/subject_1_topic"
+            android:textSize="20sp"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+            android:onClick="toMath" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorAccent"
+            android:text="@string/subject_2"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/subject_2_topic"
+            android:textSize="20sp"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+            android:onClick="toScience" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:background="@color/colorAccent"
+            android:textAlignment="center"
+            android:text="@string/forums" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/forum_question"
+            android:textSize="20sp"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+            android:onClick="toForums" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/languageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal|bottom">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="changeLangToEs"
+            android:text="@string/es_button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="changeLangToEu"
+            android:text="@string/eu_button" />
+    </LinearLayout>
+</RelativeLayout>

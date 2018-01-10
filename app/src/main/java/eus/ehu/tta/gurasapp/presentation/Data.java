@@ -10,7 +10,7 @@ import android.os.Bundle;
 public class Data {
 
     private final static String EXTRA_USERNAME = "eus.ehu.tta.gurasapp.username";
-    private final static String EXTRA_LANGUAGE = "eus.ehu.tta.gurasapp.language";
+    //private final static String EXTRA_LANGUAGE = "eus.ehu.tta.gurasapp.language";
 
 
     private final Bundle bundle;
@@ -35,11 +35,11 @@ public class Data {
         return bundle.getString(EXTRA_USERNAME, null);
     }
 
-    public void putLanguage(String language) {
+    /*public void putLanguage(String language) {
         bundle.putString(EXTRA_LANGUAGE, language);
     }
 
     public String getLanguage() {
         return bundle.getString(EXTRA_LANGUAGE, null);
-    }
+    }*/
 }

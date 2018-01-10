@@ -21,13 +21,14 @@ public class RegisterActivity extends BaseActivity {
         String pass = ((EditText) findViewById(R.id.registerPassword)).getText().toString();
 
 
-        if (username != null && !username.isEmpty() && email != null && !email.isEmpty() && pass != null && !pass.isEmpty()) {
+        if (!username.isEmpty() && !email.isEmpty() && !pass.isEmpty()) {
             if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 String login = business.register(username, email, pass);
                 if (login != null) {
                     data.putUsername(login);
                     startBaseActivity(LoginActivity.class);
-                }
+                } else
+                    Toast.makeText(this, R.string.already_user, Toast.LENGTH_SHORT).show();
             } else
                 Toast.makeText(this, R.string.incorrect_email, Toast.LENGTH_SHORT).show();
         } else

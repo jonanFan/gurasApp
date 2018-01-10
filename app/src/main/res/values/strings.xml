@@ -1,21 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">gurasApp</string>
 
-    <string name="name">Nombre</string>
+    <string name="name">Name</string>
     <string name="email">Email</string>
-    <string name="password">Contraseña</string>
-    <string name="remember_user">Recordar usuario</string>
-    <string name="not_filled">Se han de rellenar todos los campos</string>
-    <string name="incorrect_email">Email no valido</string>
+    <string name="password">Password</string>
+    <string name="remember_user">Remember user</string>
+    <string name="not_filled">All fields must be filled</string>
+    <string name="incorrect_email">Invalid email</string>
+    <string name="already_user">User exists</string>
+    <string name="bad_login">Incorrect login</string>
+    <string name="wait_login">Logging in…</string>
+
+    <string name="subject_1">MATH</string>
+    <string name="subject_1_topic">Multiples and divisors</string>
+    <string name="subject_2">NATURAL SCIENCES</string>
+    <string name="subject_2_topic">Reproductive system</string>
+    <string name="forums">FORUMS</string>
+    <string name="forum_question">Question/Answers</string>
 
 
     <!--Buttons-->
     <string name="es_button">ES</string>
     <string name="eu_button">EU</string>
     <string name="login_button">Login</string>
-    <string name="register_button">Registrar</string>
+    <string name="register_button">Register</string>
 
     <!--URL-->
     <string name="intro_video">https://www.w3schools.com/html/mov_bbb.mp4</string>
-
 </resources>
