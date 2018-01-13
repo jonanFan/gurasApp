@@ -1,27 +1,62 @@
 package eus.ehu.tta.gurasapp.model;
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 /**
  * Created by jontx on 07/01/2018.
  */
 
 public class Business implements BusinessInterface {
 
+    protected final static String GURASAPP_BUSINESS_TAG = "gurasAppBusinessTag";
+
+    private RestClient rest;
+
+    public Business(String url) {
+        this.rest = new RestClient(url);
+    }
+
     @Override
-    public String register(String username, String email, String password) {
+    public String register(String username, String email, String password) throws JSONException, IOException {
         String login = null;
         if (username == null || email == null || password == null)
             return null;
 
-        if (password.compareTo("1234") == 0)
-            return "jj0";
-        else
-            return null;
+        JSONObject json = new JSONObject();
+        json.put("name", username);
+        json.put("email", email);
+        json.put("password", password);
+
+        String response = rest.postJson(json, "register");
+
+        Log.d(GURASAPP_BUSINESS_TAG, "Register: se ha enviado " + json.toString() + " y la respuesta es " + response);
+
+        return response != null && response.compareTo("ERROR") != 0 ? response : null;
     }
 
     @Override
-    public boolean login(String login, String password) {
+    public boolean login(String login, String password) throws JSONException, IOException {
 
-        return !(login == null || password == null) && login.compareTo("jj0") == 0 && password.compareTo("1234") == 0;
+        boolean bool = false;
 
+        if (login != null || password != null) {
+            JSONObject json = new JSONObject();
+            json.put("login", login);
+            json.put("password", password);
+
+            String response = rest.postJson(json, "login");
+
+            Log.d(GURASAPP_BUSINESS_TAG, "Login: se ha enviado " + json.toString() + " y la respuesta es " + response);
+
+            if (response != null && response.compareTo("LOGIN OK") == 0)
+                bool = true;
+        }
+
+        return bool;
     }
 }

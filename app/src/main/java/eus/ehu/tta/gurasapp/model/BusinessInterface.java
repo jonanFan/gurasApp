@@ -5,7 +5,7 @@ package eus.ehu.tta.gurasapp.model;
  */
 
 public interface BusinessInterface {
-    String register(String username, String email, String password);
+    String register(String username, String email, String password) throws Exception;
 
-    boolean login(String login, String password);
+    boolean login(String login, String password) throws Exception;
 }

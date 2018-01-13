@@ -17,6 +17,7 @@ import eus.ehu.tta.gurasapp.presentation.Preferences;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected final static String GURASAPP_ACTIVITY_TAG = "gurasAppActivityTag";
+    private final static String URL = "http://u017633.ehu.eus:28080/gurasApp/rest/gurasApp";
 
     private final static String EUSKERA = "eu";
     private final static String CASTELLANO = "es";
@@ -34,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         else
             data = new Data(getIntent().getExtras()); //Recoge los datos del Data que le pasa la otra activity;
 
-        business = new Business();
+        business = new Business(URL);
 
         String lang = Preferences.getLanguage(this);
         if (lang != null)
@@ -44,7 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        recreate(); //TODO ÑAPA FEA PARA ASEGURAR EL IDIOMA, PREGUNTAR A GORKA
+        recreate();
     }
 
     protected <T> void startBaseActivity(Class<T> tClass) {

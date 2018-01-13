@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import eus.ehu.tta.gurasapp.presentation.ProgressTask;
+
 public class RegisterActivity extends BaseActivity {
 
     @Override
@@ -16,19 +18,31 @@ public class RegisterActivity extends BaseActivity {
 
 
     public void register(View view) {
-        String username = ((EditText) findViewById(R.id.registerName)).getText().toString();
-        String email = ((EditText) findViewById(R.id.registerEmail)).getText().toString();
-        String pass = ((EditText) findViewById(R.id.registerPassword)).getText().toString();
+        final String username = ((EditText) findViewById(R.id.registerName)).getText().toString();
+        final String email = ((EditText) findViewById(R.id.registerEmail)).getText().toString();
+        final String pass = ((EditText) findViewById(R.id.registerPassword)).getText().toString();
 
 
         if (!username.isEmpty() && !email.isEmpty() && !pass.isEmpty()) {
             if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                String login = business.register(username, email, pass);
-                if (login != null) {
-                    data.putUsername(login);
-                    startBaseActivity(LoginActivity.class);
-                } else
-                    Toast.makeText(this, R.string.already_user, Toast.LENGTH_SHORT).show();
+                new ProgressTask<String>(this, getString(R.string.wait_register)) {
+                    @Override
+                    protected String background() throws Exception {
+
+                        return business.register(username, email, pass);
+                    }
+
+                    @Override
+                    protected void onFinish(String result) {
+                        if (result != null) {
+                            data.putUsername(result);
+                            startBaseActivity(LoginActivity.class);
+                        } else
+                            Toast.makeText(context, R.string.already_user, Toast.LENGTH_SHORT).show();
+                    }
+                }.execute();
+
+
             } else
                 Toast.makeText(this, R.string.incorrect_email, Toast.LENGTH_SHORT).show();
         } else

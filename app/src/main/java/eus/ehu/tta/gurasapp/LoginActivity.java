@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import eus.ehu.tta.gurasapp.presentation.Preferences;
+import eus.ehu.tta.gurasapp.presentation.ProgressTask;
 
 public class LoginActivity extends BaseActivity {
 
@@ -24,22 +25,32 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void login(View view) {
-        String login = ((EditText) findViewById(R.id.loginUsername)).getText().toString();
-        String pass = ((EditText) findViewById(R.id.loginPassword)).getText().toString();
-        Boolean checked = ((CheckBox) findViewById(R.id.loginCheckbox)).isChecked();
+        final String login = ((EditText) findViewById(R.id.loginUsername)).getText().toString();
+        final String pass = ((EditText) findViewById(R.id.loginPassword)).getText().toString();
+        final Boolean checked = ((CheckBox) findViewById(R.id.loginCheckbox)).isChecked();
 
         if (!login.isEmpty() && !pass.isEmpty()) {
-            if (business.login(login, pass)) {
-                data.putUsername(login);
 
-                if (checked) {
-                    Preferences.setLogin(this, login);
-                    Preferences.setPassword(this, pass);
+            new ProgressTask<Boolean>(this, getString(R.string.wait_login)) {
+                @Override
+                protected Boolean background() throws Exception {
+                    return business.login(login, pass);
                 }
 
-                startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
-            } else
-                Toast.makeText(this, R.string.bad_login, Toast.LENGTH_SHORT).show();
+                @Override
+                protected void onFinish(Boolean result) {
+                    if (result) {
+                        if (checked) {
+                            Preferences.setLogin(context, login);
+                            Preferences.setPassword(context, pass);
+                        }
+
+                        startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
+                    } else
+                        Toast.makeText(context, getString(R.string.bad_login), Toast.LENGTH_SHORT).show();
+                }
+            }.execute();
+
         } else
             Toast.makeText(this, R.string.not_filled, Toast.LENGTH_SHORT).show();
     }
