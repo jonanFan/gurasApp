@@ -11,6 +11,10 @@
     <string name="already_user">Erabiltzailea erabilita dago</string>
     <string name="bad_login">Erabiltzaile edo pasahitza okerra</string>
     <string name="wait_login">Sesioa hasten…</string>
+    <string name="links">Link interesgarriak</string>
+    <string name="lets_play">JOLASTERA</string>
+    <string name="test">TEST</string>
+    <string name="multiples">MULTIPLOAK</string>
 
     <string name="subject_1">MATEMATIKA</string>
     <string name="subject_1_topic">Zatitzaile eta Multiploak</string>
@@ -18,6 +22,9 @@
     <string name="subject_2_topic">Ugaltze aparatua</string>
     <string name="forums">FORUAK</string>
     <string name="forum_question">Galdera/Erantzunak</string>
+    <string name="topic_question">NOLA LAGUNDU GUZTI HAU BARNERATZEN HAURREI JAKIN NAHI?</string>
+    <string name="link_question">JOLASTU NAHI?</string>
+    <string name="make_click">Egin klik</string>
 
 
     <!--Buttons-->
@@ -27,6 +34,10 @@
     <string name="register_button">Erregistratu</string>
 
     <!--URL-->
-    <string name="intro_video">https://www.w3schools.com/html/mov_bbb.mp4</string>
+    <string name="intro_video">https://dl.dropbox.com/s/c8fnd5ozecuomdd/Inicio.mp4</string>
     <string name="wait_register">Erregistratzen…</string>
+    <string name="math_video">https://www.youtube.com/embed/lDlkuobWh4M?rel=0&amp;enablejsapi=1</string>
+    <string name="science_audio">https://dl.dropbox.com/s/senpj15whv0zoik/Ugaltze%20aparatua.mp3</string>
+
+
 </resources>

@@ -18,6 +18,13 @@
     <string name="subject_2_topic">Aparato reproductor</string>
     <string name="forums">FOROS</string>
     <string name="forum_question">Preguntas/Respuestas</string>
+    <string name="link_question">¿QUIERES JUGAR?</string>
+    <string name="topic_question">¿QUIERES SABER COMO AYUDAR A LOS NIÑOS A ENTENDER LA LECCION?</string>
+    <string name="make_click">Continuar</string>
+    <string name="links">Links de interés</string>
+    <string name="lets_play">A JUGAR</string>
+    <string name="test">TEST</string>
+    <string name="multiples">MÚLTIPLOS</string>
 
 
     <!--Buttons-->
@@ -27,7 +34,9 @@
     <string name="register_button">Registrar</string>
 
     <!--URL-->
-    <string name="intro_video">https://www.w3schools.com/html/mov_bbb.mp4</string>
+    <string name="intro_video">https://dl.dropbox.com/s/c8fnd5ozecuomdd/Inicio.mp4</string>
     <string name="wait_register">Registrando…</string>
+    <string name="math_video">https://www.youtube.com/embed/YW_04Esg4QQ?rel=0&amp;enablejsapi=1</string>
+    <string name="science_audio">https://dl.dropbox.com/s/mmlicowqoted1a8/Aparato%20Reproductor.mp3</string>
 
 </resources>

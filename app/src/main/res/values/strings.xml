@@ -11,6 +11,8 @@
     <string name="already_user">User exists</string>
     <string name="bad_login">Incorrect login</string>
     <string name="wait_login">Logging in…</string>
+    <string name="wait_register">Signing up…</string>
+
 
     <string name="subject_1">MATH</string>
     <string name="subject_1_topic">Multiples and divisors</string>
@@ -18,7 +20,13 @@
     <string name="subject_2_topic">Reproductive system</string>
     <string name="forums">FORUMS</string>
     <string name="forum_question">Question/Answers</string>
-
+    <string name="link_question">Do you want to play?</string>
+    <string name="topic_question">More info?</string>
+    <string name="make_click">Click</string>
+    <string name="links">Links</string>
+    <string name="lets_play">LETS PLAY</string>
+    <string name="test">TEST</string>
+    <string name="multiples">MULTIPLES</string>
 
     <!--Buttons-->
     <string name="es_button">ES</string>
@@ -27,6 +35,8 @@
     <string name="register_button">Register</string>
 
     <!--URL-->
-    <string name="intro_video">https://www.w3schools.com/html/mov_bbb.mp4</string>
-    <string name="wait_register">Signing up…</string>
+    <string name="intro_video">https://dl.dropbox.com/s/c8fnd5ozecuomdd/Inicio.mp4</string>
+    <string name="math_video">https://www.youtube.com/embed/YW_04Esg4QQ?rel=0&amp;enablejsapi=1</string>
+    <string name="science_audio">https://dl.dropbox.com/s/mmlicowqoted1a8/Aparato%20Reproductor.mp3</string>
+
 </resources>

@@ -25,6 +25,12 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
         player.setOnPreparedListener(this);
 
         controller = new MediaController(view.getContext()) {
+
+            @Override
+            public void show(int timeout) {
+                super.show(0);
+            }
+
             @Override
             public boolean dispatchKeyEvent(KeyEvent event) {
                 if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
@@ -41,8 +47,8 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
     public void setAudioUri(String url) throws IOException {
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setDataSource(view.getContext(), Uri.parse(url));
-        player.prepare();
-        player.start();
+        player.prepareAsync();
+        //player.start();
     }
 
     @Override
@@ -59,10 +65,19 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
 
     @Override
     public void pause() {
-        player.pause();
+        if (player != null)
+            player.pause();
+    }
+
+    public void stop() {
+        if (player != null)
+            player.stop();
     }
 
     public void release() {
+        if (controller != null)
+            controller.hide();
+        
         if (player != null) {
             player.stop();
             player.release();

@@ -13,12 +13,11 @@ public class MenuActivity extends BaseActivity {
     }
 
     public void toMath(View view) {
-        Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+        startBaseActivity(MathActivity.class);
     }
 
     public void toScience(View view) {
-        Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
-
+        startBaseActivity(ScienceActivity.class);
     }
 
     public void toForums(View view) {

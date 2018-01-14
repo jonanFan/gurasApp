@@ -21,6 +21,10 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MenuActivity" />
+        <activity android:name=".MathActivity" />
+        <activity android:name=".ScienceActivity" />
+        <activity android:name=".MathLinksActivity" />
+        <activity android:name=".ScienceLinksActivity" />
     </application>
 
 </manifest>
