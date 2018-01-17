@@ -28,6 +28,19 @@
     <string name="test">TEST</string>
     <string name="multiples">MULTIPLES</string>
 
+    <string name="link1_button">Link 1</string>
+    <string name="link2_button">Link 2</string>
+    <string name="link1_math">https://es.wikipedia.org/wiki/M%C3%BAltiplo</string>
+    <string name="link2_math">http://nosolomates.es/ayuda/ayuda/divisores.htm</string>
+
+    <string name="choose_board">Choose board size</string>
+    <string name="board_4">4x4</string>
+    <string name="board_5">5x5</string>
+    <string name="board_6">6x6</string>
+    <string name="board_7">7x7</string>
+
+    <string name="maker">Marker</string>
+
     <!--Buttons-->
     <string name="es_button">ES</string>
     <string name="eu_button">EU</string>

@@ -15,6 +15,8 @@ public class Business implements BusinessInterface {
 
     protected final static String GURASAPP_BUSINESS_TAG = "gurasAppBusinessTag";
 
+    private final static String REGISTER = "register";
+    private final static String LOGIN = "login";
     private RestClient rest;
 
     public Business(String url) {
@@ -32,7 +34,7 @@ public class Business implements BusinessInterface {
         json.put("email", email);
         json.put("password", password);
 
-        String response = rest.postJson(json, "register");
+        String response = rest.postJson(json, REGISTER);
 
         Log.d(GURASAPP_BUSINESS_TAG, "Register: se ha enviado " + json.toString() + " y la respuesta es " + response);
 
@@ -49,7 +51,7 @@ public class Business implements BusinessInterface {
             json.put("login", login);
             json.put("password", password);
 
-            String response = rest.postJson(json, "login");
+            String response = rest.postJson(json, LOGIN);
 
             Log.d(GURASAPP_BUSINESS_TAG, "Login: se ha enviado " + json.toString() + " y la respuesta es " + response);
 

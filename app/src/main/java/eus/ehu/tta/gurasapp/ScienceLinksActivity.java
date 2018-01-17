@@ -1,8 +1,11 @@
 package eus.ehu.tta.gurasapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +35,23 @@ public class ScienceLinksActivity extends BaseActivity {
 
 
         linearLayout.addView(button);
+    }
+
+
+    public void toLink1(View view) {
+        openNav(getString(R.string.link1_science));
+    }
+
+    public void toLink2(View view) {
+        openNav(getString(R.string.link2_science));
+    }
+
+    private void openNav(String url) {
+        if (URLUtil.isHttpsUrl(url) || URLUtil.isHttpUrl(url)) {
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
     }
 
     public void toGame(View view) {

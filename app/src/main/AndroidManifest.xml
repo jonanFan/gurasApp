@@ -25,6 +25,7 @@
         <activity android:name=".ScienceActivity" />
         <activity android:name=".MathLinksActivity" />
         <activity android:name=".ScienceLinksActivity" />
+        <activity android:name=".MultiplesActivity"></activity>
     </application>
 
 </manifest>

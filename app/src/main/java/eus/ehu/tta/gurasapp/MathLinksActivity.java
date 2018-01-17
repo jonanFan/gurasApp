@@ -1,8 +1,11 @@
 package eus.ehu.tta.gurasapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,9 +53,25 @@ public class MathLinksActivity extends BaseActivity {
     }
 
     public void toMultiplos(View view) {
-        Toast.makeText(this, "MULTIPLOS", Toast.LENGTH_SHORT).show();
+        startBaseActivity(MultiplesActivity.class);
     }
 
+
+    public void toLink1(View view) {
+        openNav(getString(R.string.link1_math));
+    }
+
+    public void toLink2(View view) {
+        openNav(getString(R.string.link2_math));
+    }
+
+    private void openNav(String url) {
+        if (URLUtil.isHttpsUrl(url) || URLUtil.isHttpUrl(url)) {
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
+    }
 
     @Override
     public void changeLangToEs(View view) {

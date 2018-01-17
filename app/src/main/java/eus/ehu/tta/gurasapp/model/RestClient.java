@@ -24,6 +24,7 @@ import java.util.Map;
 public class RestClient {
     private final static String GURASAPP_REST_TAG = "gurasAppRestTag";
 
+    private final static String REST_PATH = "rest/gurasApp";
     private final static String AUTH = "Authorization";
     private final String baseUrl;
     private final Map<String, String> properties = new HashMap<>();
@@ -43,8 +44,8 @@ public class RestClient {
     }
 
     private HttpURLConnection getConnection(String path) throws IOException {
-        URL url = new URL(String.format("%s/%s", baseUrl, path));
-        Log.d(GURASAPP_REST_TAG, "URL con la que se va a conectar: " + baseUrl + "/" + path);
+        URL url = new URL(String.format("%s/%s/%s", baseUrl, REST_PATH, path));
+        Log.d(GURASAPP_REST_TAG, "URL con la que se va a conectar: " + baseUrl + "/" + REST_PATH + "/" + path);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         for (Map.Entry<String, String> property : properties.entrySet()) {
             conn.setRequestProperty(property.getKey(), property.getValue());

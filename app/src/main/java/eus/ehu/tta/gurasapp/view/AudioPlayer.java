@@ -77,7 +77,7 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
     public void release() {
         if (controller != null)
             controller.hide();
-        
+
         if (player != null) {
             player.stop();
             player.release();

@@ -17,7 +17,7 @@ import eus.ehu.tta.gurasapp.presentation.Preferences;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected final static String GURASAPP_ACTIVITY_TAG = "gurasAppActivityTag";
-    private final static String URL = "http://u017633.ehu.eus:28080/gurasApp/rest/gurasApp";
+    private final static String URL = "http://u017633.ehu.eus:28080/gurasApp";
 
     private final static String EUSKERA = "eu";
     private final static String CASTELLANO = "es";
