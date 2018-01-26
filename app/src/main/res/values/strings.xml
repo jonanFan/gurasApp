@@ -40,6 +40,12 @@
     <string name="board_7">7x7</string>
 
     <string name="maker">Marker</string>
+    <string name="loading_test">Loading test…</string>
+    <string name="no_test">No test</string>
+    <string name="check_test">Check</string>
+    <string name="advice_test">Advice</string>
+    <string name="next_test">Next</string>
+    <string name="finish_text">Finish test</string>
 
     <!--Buttons-->
     <string name="es_button">ES</string>

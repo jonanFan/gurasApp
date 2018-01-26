@@ -8,4 +8,6 @@ public interface BusinessInterface {
     String register(String username, String email, String password) throws Exception;
 
     boolean login(String login, String password) throws Exception;
+
+    Tests getTest(String login) throws Exception;
 }

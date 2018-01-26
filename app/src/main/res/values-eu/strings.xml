@@ -40,6 +40,13 @@
     <string name="board_7">7x7</string>
 
     <string name="maker">Markagailua</string>
+    <string name="loading_test">Testa kargatzen…</string>
+    <string name="no_test">Ez daude testik</string>
+    <string name="check_test">Egiaztatu</string>
+    <string name="advice_test">Aholkua</string>
+    <string name="next_test">Hurrengoa</string>
+    <string name="finish_test">Amaitu</string>
+
 
     <!--Buttons-->
     <string name="es_button">ES</string>

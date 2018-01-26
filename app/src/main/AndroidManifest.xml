@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="eus.ehu.tta.gurasapp">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -25,7 +26,8 @@
         <activity android:name=".ScienceActivity" />
         <activity android:name=".MathLinksActivity" />
         <activity android:name=".ScienceLinksActivity" />
-        <activity android:name=".MultiplesActivity"></activity>
+        <activity android:name=".MultiplesActivity" />
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>

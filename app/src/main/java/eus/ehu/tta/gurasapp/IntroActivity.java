@@ -44,7 +44,6 @@ public class IntroActivity extends BaseActivity {
 
     @SuppressLint("StaticFieldLeak")
     private void loadPreferences() {
-        String language = Preferences.getLanguage(this);
         final String login;
         final String password;
 

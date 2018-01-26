@@ -40,6 +40,13 @@
     <string name="board_7">7x7</string>
 
     <string name="maker">Marcador</string>
+    <string name="loading_test">Cargando test…</string>
+    <string name="no_test">No hay tests en el servidor</string>
+    <string name="check_test">Comprobar</string>
+    <string name="advice_test">Consejo</string>
+    <string name="next_test">Siguiente</string>
+    <string name="finish_test">Finalizar</string>
+
 
     <!--Buttons-->
     <string name="es_button">ES</string>

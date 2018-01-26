@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import eus.ehu.tta.gurasapp.model.Tests;
+import eus.ehu.tta.gurasapp.presentation.ProgressTask;
+
 public class MathLinksActivity extends BaseActivity {
 
     @Override
@@ -49,7 +52,23 @@ public class MathLinksActivity extends BaseActivity {
     }
 
     public void toTest(View view) {
-        Toast.makeText(this, "TEST", Toast.LENGTH_SHORT).show();
+
+
+        new ProgressTask<Tests>(this, getString(R.string.loading_test)) {
+            @Override
+            protected Tests background() throws Exception {
+                return business.getTest(data.getUsername());
+            }
+
+            @Override
+            protected void onFinish(Tests result) {
+                if (result != null) {
+                    data.putTests(result);
+                    startBaseActivity(TestActivity.class);
+                } else
+                    Toast.makeText(context, getString(R.string.no_test), Toast.LENGTH_SHORT).show();
+            }
+        }.execute();
     }
 
     public void toMultiplos(View view) {

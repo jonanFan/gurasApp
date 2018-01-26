@@ -19,13 +19,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected final static String GURASAPP_ACTIVITY_TAG = "gurasAppActivityTag";
     private final static String URL = "http://u017633.ehu.eus:28080/gurasApp";
 
-    private final static String EUSKERA = "eu";
-    private final static String CASTELLANO = "es";
+    protected final static String EUSKERA = "eu";
+    protected final static String CASTELLANO = "es";
 
     private final static String EXTRA_DATA = "eus.ehu.tta.gurasapp.data";
 
     protected Data data;
     protected Business business;
+    protected String language;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         business = new Business(URL);
 
-        String lang = Preferences.getLanguage(this);
-        if (lang != null)
-            setLocale(lang);
+        language = Preferences.getLanguage(this);
+        if (language != null)
+            setLocale(language);
     }
 
     @Override
@@ -71,8 +72,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setLanguage(String lang) {
-        String storedLang = Preferences.getLanguage(this);
-        if (lang != null && (storedLang == null || lang.compareTo(storedLang) != 0)) {
+        language = Preferences.getLanguage(this);
+        if (lang != null && (language == null || lang.compareTo(language) != 0)) {
             Preferences.setLanguage(this, lang);
             recreate();
         }

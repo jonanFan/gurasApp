@@ -22,7 +22,6 @@ public class MenuActivity extends BaseActivity {
 
     public void toForums(View view) {
         Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override

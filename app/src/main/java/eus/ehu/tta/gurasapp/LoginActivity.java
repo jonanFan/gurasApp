@@ -45,6 +45,7 @@ public class LoginActivity extends BaseActivity {
                             Preferences.setPassword(context, pass);
                         }
 
+                        data.putUsername(login);
                         startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
                     } else
                         Toast.makeText(context, getString(R.string.bad_login), Toast.LENGTH_SHORT).show();

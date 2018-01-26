@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="eus.ehu.tta.gurasapp.TestActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/languageLayout"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/testTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RadioGroup
+            android:id="@+id/testChoices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <Button
+            android:id="@+id/testSendButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/check_test"
+            android:onClick="checkTest"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/testAdviceButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/advice_test"
+            android:onClick="showAdvice"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/testNextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/next_test"
+            android:onClick="nextTest"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/testadviceText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/languageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal|bottom">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="changeLangToEs"
+            android:text="@string/es_button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="changeLangToEu"
+            android:text="@string/eu_button" />
+    </LinearLayout>
+</RelativeLayout>
