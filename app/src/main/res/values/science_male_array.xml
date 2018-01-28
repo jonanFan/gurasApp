@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="science_male_array">
+        <item>@string/science_male_1</item>
+        <item>@string/science_male_2</item>
+        <item>@string/science_male_3</item>
+        <item>@string/science_male_4</item>
+        <item>@string/science_male_5</item>
+        <item>@string/science_male_6</item>
+    </string-array>
+</resources>

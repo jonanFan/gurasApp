@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="science_female_array">
+        <item>@string/science_female_1</item>
+        <item>@string/science_female_2</item>
+        <item>@string/science_female_3</item>
+        <item>@string/science_female_4</item>
+        <item>@string/science_female_5</item>
+    </string-array>
+</resources>

@@ -42,10 +42,9 @@
     <string name="maker">Marker</string>
     <string name="loading_test">Loading test…</string>
     <string name="no_test">No test</string>
-    <string name="check_test">Check</string>
-    <string name="advice_test">Advice</string>
-    <string name="next_test">Next</string>
-    <string name="finish_text">Finish test</string>
+    <string name="check">Check</string>
+    <string name="advice">Advice</string>
+    <string name="next">Next</string>
 
     <!--Buttons-->
     <string name="es_button">ES</string>
@@ -57,5 +56,20 @@
     <string name="intro_video">https://dl.dropbox.com/s/c8fnd5ozecuomdd/Inicio.mp4</string>
     <string name="math_video">https://www.youtube.com/embed/YW_04Esg4QQ?rel=0&amp;enablejsapi=1</string>
     <string name="science_audio">https://dl.dropbox.com/s/mmlicowqoted1a8/Aparato%20Reproductor.mp3</string>
+    <string name="science_female_3">Fallopian tube</string>
+    <string name="science_female_2">Uterus</string>
+    <string name="science_female_5">Vagina</string>
+    <string name="science_female_4">Cervix</string>
+    <string name="science_female_1">Ovaries</string>
+    <string name="finish">"Finish "</string>
+    <string name="link1_science">https://es.wikipedia.org/wiki/Aparato_reproductor_masculino</string>
+    <string name="link2_science">https://es.wikipedia.org/wiki/Aparato_genital_femenino</string>
+    <string name="science_male_4">Scrotum</string>
+    <string name="science_male_2">Seminal vesicle</string>
+    <string name="science_male_1">Bladder</string>
+    <string name="science_male_5">Vas deferens</string>
+    <string name="science_male_6">Prostate</string>
+    <string name="science_male_3">Penis glans</string>
+    <string name="select">Select</string>
 
 </resources>

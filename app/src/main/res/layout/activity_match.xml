@@ -3,54 +3,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="eus.ehu.tta.gurasapp.TestActivity">
+    tools:context="eus.ehu.tta.gurasapp.MatchActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/languageLayout"
         android:gravity="center_horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/testTitle"
+        <ImageView
+            android:id="@+id/matchImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="zoomImage" />
 
-        <RadioGroup
-            android:id="@+id/testChoices"
+        <GridLayout
+            android:id="@+id/matchOptions"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:columnCount="2"
+            android:rowCount="3">
+
+        </GridLayout>
+
+        <Button
+            android:id="@+id/matchCheckButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-        <Button
-            android:id="@+id/testSendButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:onClick="check_match"
             android:text="@string/check"
-            android:onClick="checkTest"
             android:visibility="gone" />
 
         <Button
-            android:id="@+id/testAdviceButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/advice"
-            android:onClick="showAdvice"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/testNextButton"
-            android:layout_width="match_parent"
+            android:id="@+id/matchNextButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/next"
-            android:onClick="nextTest"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/testadviceText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:onClick="nextButtonAction"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -73,4 +67,5 @@
             android:onClick="changeLangToEu"
             android:text="@string/eu_button" />
     </LinearLayout>
+
 </RelativeLayout>

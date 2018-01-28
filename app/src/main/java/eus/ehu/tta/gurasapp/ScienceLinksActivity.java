@@ -9,7 +9,6 @@ import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ScienceLinksActivity extends BaseActivity {
 
@@ -55,7 +54,9 @@ public class ScienceLinksActivity extends BaseActivity {
     }
 
     public void toGame(View view) {
-        Toast.makeText(this, "MATCH", Toast.LENGTH_SHORT).show();
+
+        startBaseActivity(MatchActivity.class);
+        //Toast.makeText(this, "MATCH", Toast.LENGTH_SHORT).show();
     }
 
     @Override

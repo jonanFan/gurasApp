@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.github.chrisbanes.photoview.PhotoView;
+
 import java.io.IOException;
 
 import eus.ehu.tta.gurasapp.view.AudioPlayer;
@@ -64,8 +66,12 @@ public class ScienceActivity extends BaseActivity {
 
     public void zoomImage(View view) {
 
-        Dialog dialog = new Dialog(this);
+        Dialog dialog = new Dialog(this, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
         dialog.setContentView(R.layout.dialog_img);
+
+
+        PhotoView photo = (PhotoView) dialog.findViewById(R.id.photoView);
+        photo.setImageResource(R.drawable.science);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }

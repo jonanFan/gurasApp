@@ -51,7 +51,9 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
         drawTest(testNumber);
 
         if (selectedChoice != -1) {
-            checkTest(null);
+            findViewById(R.id.testSendButton).setVisibility(View.VISIBLE);
+            if (checked)
+                checkTest(null);
         }
     }
 
@@ -79,7 +81,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
 
         if (index == tests.getTotal() - 1) {
             Button nextButton = findViewById(R.id.testNextButton);
-            nextButton.setText(R.string.finish_test);
+            nextButton.setText(R.string.finish);
             nextButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -112,9 +114,9 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
         } else {
             if (!checked) {
                 correct++;
-                checked = true;
             }
         }
+        checked = true;
 
         findViewById(R.id.testNextButton).setVisibility(View.VISIBLE);
 

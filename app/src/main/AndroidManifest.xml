@@ -27,7 +27,8 @@
         <activity android:name=".MathLinksActivity" />
         <activity android:name=".ScienceLinksActivity" />
         <activity android:name=".MultiplesActivity" />
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".TestActivity" />
+        <activity android:name=".MatchActivity"></activity>
     </application>
 
 </manifest>

@@ -42,10 +42,10 @@
     <string name="maker">Markagailua</string>
     <string name="loading_test">Testa kargatzen…</string>
     <string name="no_test">Ez daude testik</string>
-    <string name="check_test">Egiaztatu</string>
-    <string name="advice_test">Aholkua</string>
-    <string name="next_test">Hurrengoa</string>
-    <string name="finish_test">Amaitu</string>
+    <string name="check">Egiaztatu</string>
+    <string name="advice">Aholkua</string>
+    <string name="next">Hurrengoa</string>
+    <string name="finish">Amaitu</string>
 
 
     <!--Buttons-->
@@ -59,6 +59,18 @@
     <string name="wait_register">Erregistratzen…</string>
     <string name="math_video">https://www.youtube.com/embed/lDlkuobWh4M?rel=0&amp;enablejsapi=1</string>
     <string name="science_audio">https://dl.dropbox.com/s/senpj15whv0zoik/Ugaltze%20aparatua.mp3</string>
+    <string name="science_female_3">Falopioren tronpa</string>
+    <string name="science_female_2">Umetokia</string>
+    <string name="science_female_5">Bagina</string>
+    <string name="science_female_4">Umetokiaren lepoa</string>
+    <string name="science_female_1">Obulutegiak</string>
+    <string name="science_male_4">Eskrotoa</string>
+    <string name="science_male_2">Semen-besikula</string>
+    <string name="science_male_1">Gernu-maskuria</string>
+    <string name="science_male_5">Hodi deferenteak</string>
+    <string name="science_male_6">Prostata</string>
+    <string name="science_male_3">Glandea</string>
+    <string name="select">Hauta</string>
 
 
 </resources>
