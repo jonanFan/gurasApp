@@ -10,9 +10,10 @@ import android.content.SharedPreferences;
 public class Preferences {
 
     private final static String SHARED_PREFS = "eus.ehu.tta.gurasapp.shared_prefs";
-    private final static String LOGIN = "eus.ehu.tta.gurasapp.login";
-    private final static String PASSWORD = "eus.ehu.tta.gurasapp.password";
-    private final static String LANGUAGE = "eus.ehu.tta.gurasapp.language";
+    private final static String LOGIN = "eus.ehu.tta.gurasapp.shared_prefs.login";
+    private final static String PASSWORD = "eus.ehu.tta.gurasapp.shared_prefs.password";
+    private final static String LANGUAGE = "eus.ehu.tta.gurasapp.shared_prefs.language";
+    private final static String DATE = "eus.ehu.tta.gurasapp.shared_prefs.date";
 
     public static String getLogin(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -47,6 +48,18 @@ public class Preferences {
         SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(LANGUAGE, language);
+        editor.commit();
+    }
+
+    public static int getDate(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        return preferences.getInt(DATE, 0);
+    }
+
+    public static void setDate(Context context, int date) {
+        SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(DATE, date);
         editor.commit();
     }
 

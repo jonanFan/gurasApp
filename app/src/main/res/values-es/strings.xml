@@ -71,5 +71,8 @@
     <string name="science_male_6">Prostata</string>
     <string name="science_male_3">Glande</string>
     <string name="select">Elegir</string>
+    <string name="answer">Respuesta:</string>
+    <string name="question">Pregunta:</string>
+    <string name="teacher">Profesor:</string>
 
 </resources>

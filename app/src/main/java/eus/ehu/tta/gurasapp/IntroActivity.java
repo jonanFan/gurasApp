@@ -1,19 +1,37 @@
 package eus.ehu.tta.gurasapp;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import java.io.File;
+import java.util.Calendar;
+import java.util.List;
+
+import eus.ehu.tta.gurasapp.model.Forum;
+import eus.ehu.tta.gurasapp.model.Forums;
+import eus.ehu.tta.gurasapp.presentation.LocalStorage;
 import eus.ehu.tta.gurasapp.presentation.Preferences;
 import eus.ehu.tta.gurasapp.presentation.ProgressTask;
 import eus.ehu.tta.gurasapp.view.VideoPlayer;
 
 public class IntroActivity extends BaseActivity {
+
+    private final int WRITE_PERMISSION_CODE = 1;
+    private final int DELETE_PERMISSION_CODE = 2;
+    private final static String AUDIO_DIR = "Audio";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +82,35 @@ public class IntroActivity extends BaseActivity {
                     protected void onFinish(Boolean result) {
                         if (result) {
                             data.putUsername(login);
-                            startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
+
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                getForums();
+                                startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
+                            } else {
+                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+                            }
+
+
                         } else
                             Toast.makeText(context, getString(R.string.bad_login), Toast.LENGTH_SHORT).show();
                     }
                 }.execute();
+            } else {
+
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+                    //Borrar posible basura de un user anterior
+                    LocalStorage.deleteForums(this);
+                    File dir = new File(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR));
+
+                    if (dir.exists()) {
+                        for (File file : dir.listFiles())
+                            file.delete();
+                    }
+
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, DELETE_PERMISSION_CODE);
+                }
             }
 
         } else
@@ -91,5 +133,120 @@ public class IntroActivity extends BaseActivity {
     @Override
     public void changeLangToEu(View view) {
         super.changeLangToEu(view);
+    }
+
+
+    private void getForums() {
+        new ProgressTask<Forums>(this, null) {
+            @Override
+            protected Forums background() throws Exception {
+                return business.getForums(data.getUsername(), Preferences.getDate(context));
+                // return business.getForums(login, 0);
+            }
+
+            @Override
+            protected void onFinish(Forums result) {
+                Forums forums = null;
+                if (result != null && result.getTotal() != 0) {
+
+                    int date = Preferences.getDate(context);
+
+                    forums = LocalStorage.getForums(context);
+
+                    if (forums != null) {
+                        List<Forum> forumList = forums.getForums();
+
+                        for (int i = forums.getTotal() - 1; i >= 0; i--) { //Elimina los elementos repetidos
+                            if (forumList.get(i).getDate() >= date) {
+                                forumList.remove(i);
+                                forums.setTotal(forums.getTotal() - 1);
+                            }
+                        }
+
+                        List<Forum> resultList = result.getForums();
+
+                        for (int i = 0; i < result.getTotal(); i++) //Elimina los actualizados
+                            for (int j = forums.getTotal() - 1; j >= 0; j--) {
+                                if (resultList.get(i).getQuestion().compareTo(forumList.get(j).getQuestion()) == 0) {
+                                    forumList.remove(j);
+                                    forums.setTotal(forums.getTotal() - 1);
+                                }
+                            }
+
+                        for (int i = 0; i < result.getTotal(); i++) {
+                            forumList.add(resultList.get(i));
+                            forums.setTotal(forums.getTotal() + 1);
+                        }
+
+                        forums.setForums(forumList);
+                        LocalStorage.putForums(context, forums);
+                    } else {
+                        LocalStorage.putForums(context, result);
+                        forums = result;
+                    }
+
+                    Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int day = calendar.get(Calendar.DATE);
+                    date = year * 10000 + month * 100 + day;
+                    // Log.d(GURASAPP_ACTIVITY_TAG, "EL date es " + date);
+                    Preferences.setDate(context, date);
+
+                    // Log.d(GURASAPP_ACTIVITY_TAG, "La salida es " + LocalStorage.getForums(context));
+
+
+                    final List<Forum> forumList = forums.getForums();
+                    for (int i = 0; i < forums.getTotal(); i++) {
+
+                        File file = new File(String.format("%s/%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR, forumList.get(i).getQuestion()));
+
+                        if (!file.exists()) {
+                            final int finalI = i;
+                            new ProgressTask<Void>(context, null) {
+                                @Override
+                                protected Void background() throws Exception {
+                                    business.getForumQuestion(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR), forumList.get(finalI).getQuestion());
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onFinish(Void result) {
+                                    Log.d(GURASAPP_ACTIVITY_TAG, "He llegado al finish"); //TODO
+                                }
+                            }.execute();
+                        }
+                    }
+                }
+            }
+        }.execute();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case WRITE_PERMISSION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getForums();
+                } else {
+                    Toast.makeText(this, "LA LIAS RAFA", Toast.LENGTH_SHORT).show();//TODO
+                }
+
+                startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
+                break;
+            }
+            case DELETE_PERMISSION_CODE: {
+                //Borrar posible basura de un user anterior
+                LocalStorage.deleteForums(this);
+                File dir = new File(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR));
+
+                if (dir.exists()) {
+                    for (File file : dir.listFiles())
+                        file.delete();
+                }
+                break;
+            }
+        }
     }
 }

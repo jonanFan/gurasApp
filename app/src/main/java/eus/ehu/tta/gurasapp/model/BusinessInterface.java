@@ -10,4 +10,8 @@ public interface BusinessInterface {
     boolean login(String login, String password) throws Exception;
 
     Tests getTest(String login) throws Exception;
+
+    Forums getForums(String login, int date) throws Exception;
+
+    void getForumQuestion(String storagePath, String filename) throws Exception;
 }

@@ -2,7 +2,6 @@ package eus.ehu.tta.gurasapp;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 public class MenuActivity extends BaseActivity {
 
@@ -21,7 +20,8 @@ public class MenuActivity extends BaseActivity {
     }
 
     public void toForums(View view) {
-        Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
+        startBaseActivity(ForumsActivity.class);
+        //Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
     }
 
     @Override

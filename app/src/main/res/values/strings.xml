@@ -71,5 +71,8 @@
     <string name="science_male_6">Prostate</string>
     <string name="science_male_3">Penis glans</string>
     <string name="select">Select</string>
+    <string name="answer">Answer:</string>
+    <string name="question">Question:</string>
+    <string name="teacher">Teacher:</string>
 
 </resources>

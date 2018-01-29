@@ -24,7 +24,7 @@ import java.util.Map;
 public class RestClient {
     private final static String GURASAPP_REST_TAG = "gurasAppRestTag";
 
-    private final static String REST_PATH = "rest/gurasApp";
+    private final static String REST_PATH = "gurasApp/rest/gurasApp";
     private final static String AUTH = "Authorization";
     private final String baseUrl;
     private final Map<String, String> properties = new HashMap<>();

@@ -71,6 +71,9 @@
     <string name="science_male_6">Prostata</string>
     <string name="science_male_3">Glandea</string>
     <string name="select">Hauta</string>
+    <string name="answer">Erantzuna:</string>
+    <string name="question">Galdera:</string>
+    <string name="teacher">Irakaslea:</string>
 
 
 </resources>
