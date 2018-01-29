@@ -28,11 +28,6 @@ import eus.ehu.tta.gurasapp.presentation.ProgressTask;
 import eus.ehu.tta.gurasapp.view.VideoPlayer;
 
 public class IntroActivity extends BaseActivity {
-
-    private final int WRITE_PERMISSION_CODE = 1;
-    private final int DELETE_PERMISSION_CODE = 2;
-    private final static String AUDIO_DIR = "Audio";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -230,20 +225,27 @@ public class IntroActivity extends BaseActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getForums();
                 } else {
-                    Toast.makeText(this, "LA LIAS RAFA", Toast.LENGTH_SHORT).show();//TODO
+                    Toast.makeText(this, R.string.permission_needed, Toast.LENGTH_SHORT).show();
                 }
 
                 startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
                 break;
             }
             case DELETE_PERMISSION_CODE: {
-                //Borrar posible basura de un user anterior
-                LocalStorage.deleteForums(this);
-                File dir = new File(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR));
 
-                if (dir.exists()) {
-                    for (File file : dir.listFiles())
-                        file.delete();
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //Borrar posible basura de un user anterior
+                    LocalStorage.deleteForums(this);
+                    File dir = new File(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR));
+
+                    if (dir.exists()) {
+                        for (File file : dir.listFiles())
+                            file.delete();
+                    }
+
+                } else {
+                    Toast.makeText(this, R.string.permission_needed, Toast.LENGTH_SHORT).show();
                 }
                 break;
             }

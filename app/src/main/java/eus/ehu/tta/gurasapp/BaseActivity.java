@@ -24,6 +24,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private final static String EXTRA_DATA = "eus.ehu.tta.gurasapp.data";
 
+    protected final int WRITE_PERMISSION_CODE = 1;
+    protected final int DELETE_PERMISSION_CODE = 2;
+    protected final static String AUDIO_DIR = "Audio";
+
     protected Data data;
     protected Business business;
     protected String language;

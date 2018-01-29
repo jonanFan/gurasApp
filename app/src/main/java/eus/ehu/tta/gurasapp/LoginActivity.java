@@ -26,8 +26,6 @@ import eus.ehu.tta.gurasapp.presentation.ProgressTask;
 
 public class LoginActivity extends BaseActivity {
 
-    private final int WRITE_PERMISSION_CODE = 1;
-    private final static String AUDIO_DIR = "Audio";
     private boolean storeData;
 
     @Override
@@ -146,7 +144,7 @@ public class LoginActivity extends BaseActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getForums();
                 } else {
-                    Toast.makeText(this, "LA LIAS RAFA", Toast.LENGTH_SHORT).show();//TODO
+                    Toast.makeText(this, R.string.permission_needed, Toast.LENGTH_SHORT).show();
                 }
 
                 startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:enabled="false"
+    android:orientation="horizontal"
+    android:paddingEnd="8dip"
+    android:paddingRight="8dip">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:src="@android:drawable/ic_delete"
+        android:background="@null"
+        android:layout_gravity="center"
+        android:onClick="logout" />
+</LinearLayout>

@@ -184,11 +184,11 @@ public class MatchActivity extends BaseActivity {
             RelativeLayout spinner_layout = (RelativeLayout) layout.getChildAt(i);
             Spinner spinner = (Spinner) spinner_layout.getChildAt(0);
             if (selected.get(i) == i) {
-                spinner_layout.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                spinner_layout.setBackgroundColor(getResources().getColor(R.color.green));
                 spinner.setEnabled(false);
                 count++;
             } else {
-                spinner_layout.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                spinner_layout.setBackgroundColor(getResources().getColor(R.color.red));
             }
         }
 

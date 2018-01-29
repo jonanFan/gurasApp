@@ -74,5 +74,13 @@
     <string name="answer">Answer:</string>
     <string name="question">Question:</string>
     <string name="teacher">Teacher:</string>
+    <string name="title">Title</string>
+    <string name="record_button">Record</string>
+    <string name="new_forum">New Forum</string>
+    <string name="no_micro">No micro</string>
+    <string name="no_app">No app</string>
+    <string name="title_needed">Title needed</string>
+    <string name="permission_needed">Permissions must be accepted</string>
+
 
 </resources>

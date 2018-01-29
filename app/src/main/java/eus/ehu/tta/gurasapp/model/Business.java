@@ -28,6 +28,9 @@ public class Business implements BusinessInterface {
     private final static String DATE = "date";
     private final static String TEST = "getTests";
     private final static String FORUM = "getForums";
+    private final static String UPLOAD_FILE = "uploadFile";
+    private final static String ADD_QUESTION = "addQuestion";
+
     private final static String FORUM_QUESTION = "static/gurasApp/audio";
     private String baseUrl;
     private RestClient rest;
@@ -249,5 +252,31 @@ public class Business implements BusinessInterface {
                 conn.disconnect();
         }
 
+    }
+
+
+    public Boolean addQuestion(String login, Forum forum, InputStream question) throws Exception {
+
+        boolean send = false;
+
+
+        if (login == null || forum == null || forum.getQuestion() == null || forum.getTitle() == null || forum.getDate() == 0)
+            return null;
+
+        if (rest.postFile(UPLOAD_FILE, question, forum.getQuestion()) == HttpURLConnection.HTTP_OK) {
+            JSONObject json = new JSONObject();
+            json.put("title", forum.getTitle());
+            json.put("question", forum.getQuestion());
+            json.put("date", forum.getDate());
+            json.put("login", login);
+            String response = rest.postJson(json, ADD_QUESTION);
+            Log.d(GURASAPP_BUSINESS_TAG, "La respuesta es " + response);
+            String checkFlage = response.substring(response.lastIndexOf(" ") + 1);
+            if (checkFlage != null && !checkFlage.isEmpty() && checkFlage.compareTo("ADDED") == 0) {
+                send = true;
+            }
+        }
+
+        return send;
     }
 }

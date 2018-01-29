@@ -74,6 +74,13 @@
     <string name="answer">Erantzuna:</string>
     <string name="question">Galdera:</string>
     <string name="teacher">Irakaslea:</string>
+    <string name="title">Titulua</string>
+    <string name="record_button">Grabatu</string>
+    <string name="new_forum">Galdetu</string>
+    <string name="no_app">Ez dago aplikaziorik ekintza hori gauzatzeko</string>
+    <string name="no_micro">Ez dago mikrofonorik</string>
+    <string name="title_needed">Titulua sartu behar da</string>
+    <string name="permission_needed">App-ari baimena eman behar zaio ondo funtzionatzeko</string>
 
 
 </resources>

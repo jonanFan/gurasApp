@@ -74,13 +74,13 @@ public class MultiplesActivity extends BaseActivity implements View.OnClickListe
         ((LinearLayout) findViewById(R.id.multiplesContent)).addView(layout);
 
         TextView title = new TextView(this);
-        title.setText("titulo");
+        title.setText("titulo"); //TODO
         title.setGravity(Gravity.CENTER);
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setCustomTitle(title);
         alertDialog.setMessage(String.valueOf(lastValue));
-        alertDialog.setNeutralButton("si", null);
+        alertDialog.setNeutralButton("si", null); //TODO
         alertDialog.setCancelable(false);
         AlertDialog dialog = alertDialog.show();
 

@@ -2,49 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     style="?android:attr/listSeparatorTextViewStyle">
 
     <TextView
         style="?android:attr/textAppearanceLarge"
         android:id="@+id/forumTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/question" />
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/forumQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AUDIO" />
+        android:orientation="horizontal" />
 
     <TextView
         android:id="@+id/forumAnswerTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/answer"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/forumAnswerContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/forumTeacherTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/teacher"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/forumTeacherContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="gone" />
 
 </LinearLayout>

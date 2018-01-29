@@ -4,7 +4,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.KeyEvent;
-import android.view.View;
+import android.view.ViewGroup;
 import android.widget.MediaController;
 
 import java.io.IOException;
@@ -15,22 +15,16 @@ import java.io.IOException;
 
 public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPlayer.OnPreparedListener {
 
-    private View view;
+    private ViewGroup view;
     private MediaPlayer player;
-    private MediaController controller;
+    private AudioController controller;
 
-    public AudioPlayer(View view, final Runnable onExit) {
+    public AudioPlayer(ViewGroup view, final Runnable onExit) {
         this.view = view;
         player = new MediaPlayer();
         player.setOnPreparedListener(this);
 
-        controller = new MediaController(view.getContext()) {
-
-            @Override
-            public void show(int timeout) {
-                super.show(0);
-            }
-
+        controller = new AudioController(view.getContext()) {
             @Override
             public boolean dispatchKeyEvent(KeyEvent event) {
                 if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
@@ -42,25 +36,50 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
             }
         };
 
-    }
-
-    public void setAudioUri(String url) throws IOException {
-        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        player.setDataSource(view.getContext(), Uri.parse(url));
-        player.prepareAsync();
-        //player.start();
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        controller.setMediaPlayer(this);
         controller.setAnchorView(view);
         controller.show(0);
     }
 
+    public void setAudioUri(String url) throws IOException {
+        if (player != null) {
+            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            player.setDataSource(view.getContext(), Uri.parse(url));
+            player.prepareAsync();
+            //player.start();
+        }
+    }
+
+    public void setAudioUri(Uri uri) throws IOException {
+        if (player != null) {
+            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            player.setDataSource(view.getContext(), uri);
+            player.prepareAsync();
+            //player.start();
+        }
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        if (controller != null) {
+            controller.setMediaPlayer(this);
+            controller.setEnabled(true);
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    player.seekTo(0);
+                    controller.finished();
+                }
+            });
+          /*  controller.setAnchorView(view);
+            controller.show(0);*/
+        }
+    }
+
     @Override
     public void start() {
-        player.start();
+
+        if (player != null)
+            player.start();
     }
 
     @Override
@@ -70,8 +89,9 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
     }
 
     public void stop() {
-        if (player != null)
-            player.stop();
+        if (controller != null) {
+            controller.stop();
+        }
     }
 
     public void release() {
@@ -87,22 +107,25 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
 
     @Override
     public int getDuration() {
-        return player.getDuration();
+        return player != null ? player.getDuration() : 0;
     }
 
     @Override
     public int getCurrentPosition() {
-        return player.getCurrentPosition();
+
+        return player != null ? player.getCurrentPosition() : 0;
     }
 
     @Override
     public void seekTo(int pos) {
-        player.seekTo(pos);
+
+        if (player != null)
+            player.seekTo(pos);
     }
 
     @Override
     public boolean isPlaying() {
-        return player.isPlaying();
+        return player != null ? player.isPlaying() : false;
     }
 
     @Override
@@ -127,6 +150,6 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
 
     @Override
     public int getAudioSessionId() {
-        return player.getAudioSessionId();
+        return player != null ? player.getAudioSessionId() : 0;
     }
 }

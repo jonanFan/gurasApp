@@ -114,7 +114,12 @@ public class RestClient {
             DataOutputStream outputStream = new DataOutputStream(conn.getOutputStream());
 
             outputStream.writeBytes(prefix + boundary + newLine);
+            outputStream.writeBytes("Content-Disposition: form-data; name=\"filetype\"" + newLine);
+            outputStream.writeBytes(newLine);
+            outputStream.writeBytes("audio" + newLine);
+            outputStream.writeBytes(prefix + boundary + newLine);
             outputStream.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\"" + filename + "\"" + newLine);
+            outputStream.writeBytes("Content-Type: audio/mpeg" + newLine);
             outputStream.writeBytes(newLine);
 
             byte[] data = new byte[1024 * 1024]; //Buffer intermedio para enviar el archivo

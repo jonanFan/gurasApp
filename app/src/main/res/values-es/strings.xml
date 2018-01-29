@@ -74,5 +74,12 @@
     <string name="answer">Respuesta:</string>
     <string name="question">Pregunta:</string>
     <string name="teacher">Profesor:</string>
+    <string name="title">Titulo</string>
+    <string name="record_button">Grabar</string>
+    <string name="new_forum">Preguntar</string>
+    <string name="no_app">No existe una app capaz de realizar dicha acción</string>
+    <string name="no_micro">No hay micrófono</string>
+    <string name="title_needed">Hay que establecer el titulo</string>
+    <string name="permission_needed">Se han de aceptar los permisos para que la aplicación funcione bien</string>
 
 </resources>
