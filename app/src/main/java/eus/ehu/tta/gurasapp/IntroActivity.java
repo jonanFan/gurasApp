@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -23,6 +24,7 @@ import java.util.List;
 import eus.ehu.tta.gurasapp.model.Forum;
 import eus.ehu.tta.gurasapp.model.Forums;
 import eus.ehu.tta.gurasapp.presentation.LocalStorage;
+import eus.ehu.tta.gurasapp.presentation.NetworkChecker;
 import eus.ehu.tta.gurasapp.presentation.Preferences;
 import eus.ehu.tta.gurasapp.presentation.ProgressTask;
 import eus.ehu.tta.gurasapp.view.VideoPlayer;
@@ -33,23 +35,33 @@ public class IntroActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        RelativeLayout layout = findViewById(R.id.videoLayout);
-        VideoView videoView = VideoPlayer.getVideoPlayer(this, getString(R.string.intro_video), new Runnable() {
-            @Override
-            public void run() {
-                finish();
+        int connType = NetworkChecker.getConnType(this);
+        if (connType != -1) {
+
+            if (connType != ConnectivityManager.TYPE_WIFI) {
+                Toast.makeText(this, R.string.no_wifi_warning, Toast.LENGTH_SHORT).show();
             }
-        });
 
-        RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        relativeParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        relativeParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        relativeParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        relativeParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            RelativeLayout layout = findViewById(R.id.videoLayout);
+            VideoView videoView = VideoPlayer.getVideoPlayer(this, getString(R.string.intro_video), new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            });
 
-        videoView.setLayoutParams(relativeParams);
+            RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            relativeParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            relativeParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            relativeParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            relativeParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
-        layout.addView(videoView, 0);
+            videoView.setLayoutParams(relativeParams);
+
+            layout.addView(videoView, 0);
+
+        } else
+            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
 
         loadPreferences();
 
@@ -66,30 +78,38 @@ public class IntroActivity extends BaseActivity {
 
             Log.d(GURASAPP_ACTIVITY_TAG, "Login: " + login + " y pass " + password);
             if (login != null && password != null) {
+                int connType = NetworkChecker.getConnType(this);
+                if (connType != -1) {
 
-                new ProgressTask<Boolean>(this, getString(R.string.wait_login)) {
-                    @Override
-                    protected Boolean background() throws Exception {
-                        return business.login(login, password);
+                    if (connType != ConnectivityManager.TYPE_WIFI) {
+                        Toast.makeText(this, R.string.no_wifi_warning, Toast.LENGTH_SHORT).show();
                     }
 
-                    @Override
-                    protected void onFinish(Boolean result) {
-                        if (result) {
-                            data.putUsername(login);
+                    new ProgressTask<Boolean>(this, getString(R.string.wait_login)) {
+                        @Override
+                        protected Boolean background() throws Exception {
+                            return business.login(login, password);
+                        }
 
-                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                getForums();
-                                startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
-                            } else {
-                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
-                            }
+                        @Override
+                        protected void onFinish(Boolean result) {
+                            if (result) {
+                                data.putUsername(login);
+
+                                if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                    getForums();
+                                    startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
+                                } else {
+                                    ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+                                }
 
 
-                        } else
-                            Toast.makeText(context, getString(R.string.bad_login), Toast.LENGTH_SHORT).show();
-                    }
-                }.execute();
+                            } else
+                                Toast.makeText(context, getString(R.string.bad_login), Toast.LENGTH_SHORT).show();
+                        }
+                    }.execute();
+                } else
+                    Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
             } else {
 
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -141,7 +161,7 @@ public class IntroActivity extends BaseActivity {
 
             @Override
             protected void onFinish(Forums result) {
-                Forums forums = null;
+                Forums forums;
                 if (result != null && result.getTotal() != 0) {
 
                     int date = Preferences.getDate(context);
@@ -198,18 +218,21 @@ public class IntroActivity extends BaseActivity {
 
                         if (!file.exists()) {
                             final int finalI = i;
-                            new ProgressTask<Void>(context, null) {
-                                @Override
-                                protected Void background() throws Exception {
-                                    business.getForumQuestion(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR), forumList.get(finalI).getQuestion());
-                                    return null;
-                                }
 
-                                @Override
-                                protected void onFinish(Void result) {
-                                    Log.d(GURASAPP_ACTIVITY_TAG, "He llegado al finish"); //TODO
-                                }
-                            }.execute();
+                            if (NetworkChecker.isConnected(context)) {
+                                new ProgressTask<Void>(context, null) {
+                                    @Override
+                                    protected Void background() throws Exception {
+                                        business.getForumQuestion(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR), forumList.get(finalI).getQuestion());
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onFinish(Void result) {
+                                        //Log.d(GURASAPP_ACTIVITY_TAG, "He llegado al finish");
+                                    }
+                                }.execute();
+                            }
                         }
                     }
                 }
@@ -223,7 +246,11 @@ public class IntroActivity extends BaseActivity {
             case WRITE_PERMISSION_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getForums();
+
+                    if (NetworkChecker.isConnected(this)) {
+                        getForums();
+                    } else
+                        Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, R.string.permission_needed, Toast.LENGTH_SHORT).show();
                 }

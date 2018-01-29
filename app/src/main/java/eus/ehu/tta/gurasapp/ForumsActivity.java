@@ -1,14 +1,19 @@
 package eus.ehu.tta.gurasapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +34,7 @@ import java.util.List;
 import eus.ehu.tta.gurasapp.model.Forum;
 import eus.ehu.tta.gurasapp.model.Forums;
 import eus.ehu.tta.gurasapp.presentation.LocalStorage;
+import eus.ehu.tta.gurasapp.presentation.NetworkChecker;
 import eus.ehu.tta.gurasapp.presentation.ProgressTask;
 import eus.ehu.tta.gurasapp.view.AudioPlayer;
 
@@ -38,6 +44,8 @@ public class ForumsActivity extends BaseActivity {
 
     private Dialog dialog;
     private List<AudioPlayer> players;
+    private String path;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,14 +114,14 @@ public class ForumsActivity extends BaseActivity {
 
             if (answer != null && !answer.isEmpty()) {
                 textView = view.findViewById(R.id.forumAnswerContent);
-                textView.setText(answer);
+                textView.setText(String.format("\t%s", answer));
                 textView.setVisibility(View.VISIBLE);
                 view.findViewById(R.id.forumAnswerTitle).setVisibility(View.VISIBLE);
             }
 
             if (teacher != null && !teacher.isEmpty()) {
                 textView = view.findViewById(R.id.forumTeacherContent);
-                textView.setText(teacher);
+                textView.setText(String.format("\t%s", teacher));
                 textView.setVisibility(View.VISIBLE);
                 view.findViewById(R.id.forumTeacherTitle).setVisibility(View.VISIBLE);
             }
@@ -123,6 +131,12 @@ public class ForumsActivity extends BaseActivity {
     }
 
     public void recordQuestion(View view) {
+
+        if (players != null)
+            for (AudioPlayer player : players) {
+                player.stop();
+
+            }
 
         dialog = new Dialog(this, android.R.style.Theme_Material_Light_Dialog);
         dialog.setContentView(R.layout.dialog_forum);
@@ -167,86 +181,23 @@ public class ForumsActivity extends BaseActivity {
 
     private void sendSolution(Uri uri) {
         EditText editText = dialog.findViewById(R.id.recordTitle);
-        final String title = editText.getText().toString();
+        title = editText.getText().toString();
         Log.d(GURASAPP_ACTIVITY_TAG, "SEND SOL: Tengo la URI " + uri);
         Cursor cursor = getContentResolver().query(uri, null, null, null, null, null);
 
         try {
             if (cursor != null && cursor.moveToFirst()) {
-                final String path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA));
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA));
 
                 if (path != null && !path.isEmpty()) {
                     Log.d(GURASAPP_ACTIVITY_TAG, "El path es " + path);
 
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-                    new ProgressTask<Forum>(this, null) {
-                        @Override
-                        protected Forum background() throws Exception {
-
-                            Forum forum = null;
-                            File dir = new File(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR));
-                            if (!dir.exists())
-                                dir.mkdirs();
-
-                            Calendar calendar = Calendar.getInstance();
-                            int year = calendar.get(Calendar.YEAR);
-                            int month = calendar.get(Calendar.MONTH) + 1;
-                            int day = calendar.get(Calendar.DATE);
-                            int date = year * 10000 + month * 100 + day;
-
-                            File src = new File(path);
-
-                            String filename = String.format("%s-%s-%s.%s", data.getUsername(), title, date, path.substring(path.lastIndexOf(".") + 1));
-                            File dst = new File(dir, filename);
-
-                            //TODO PEDIR PERMISOS ANTES DE READ AND WRITE, ANTES DE LLAMAR AL INTENT
-                            FileChannel inChannel = new FileInputStream(src).getChannel();
-                            FileChannel outChannel = new FileOutputStream(dst).getChannel();
-
-                            try {
-                                inChannel.transferTo(0, inChannel.size(), outChannel);
-                            } finally {
-                                if (inChannel != null)
-                                    inChannel.close();
-
-                                if (outChannel != null)
-                                    outChannel.close();
-
-                                src.delete();
-                            }
-
-                            FileInputStream inputStream = new FileInputStream(dst);
-
-                            forum = new Forum();
-                            forum.setTitle(title);
-                            forum.setQuestion(filename);
-                            forum.setDate(date);
-
-                            return business.addQuestion(data.getUsername(), forum, inputStream) ? forum : null;
-                        }
-
-                        @Override
-                        protected void onFinish(Forum result) {
-                            if (result != null) {
-                                Forums forums = LocalStorage.getForums(context);
-                                if (forums != null) {
-                                    forums.getForums().add(result);
-                                    forums.setTotal(forums.getTotal() + 1);
-                                } else {
-                                    forums = new Forums();
-                                    forums.setTotal(1);
-
-                                    List<Forum> list = new ArrayList<>();
-                                    list.add(result);
-                                    forums.setForums(list);
-                                }
-                                LocalStorage.putForums(context, forums);
-                                recreate();
-                            }
-                        }
-                    }.execute();
-
-
+                        sendSolution();
+                    } else {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, DELETE_PERMISSION_CODE);
+                    }
                 }
             }
         } finally
@@ -256,6 +207,98 @@ public class ForumsActivity extends BaseActivity {
                 cursor.close();
         }
 
+    }
+
+    void sendSolution() {
+        int connType = NetworkChecker.getConnType(this);
+        if (connType != -1) {
+
+            if (connType != ConnectivityManager.TYPE_WIFI) {
+                Toast.makeText(this, R.string.no_wifi_warning, Toast.LENGTH_SHORT).show();
+            }
+
+            new ProgressTask<Forum>(this, null) {
+                @Override
+                protected Forum background() throws Exception {
+
+                    Forum forum;
+                    File dir = new File(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR));
+                    if (!dir.exists())
+                        dir.mkdirs();
+
+                    Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int day = calendar.get(Calendar.DATE);
+                    int date = year * 10000 + month * 100 + day;
+
+                    File src = new File(path);
+
+                    String filename = String.format("%s-%s-%s.%s", data.getUsername(), title, date, path.substring(path.lastIndexOf(".") + 1));
+                    File dst = new File(dir, filename);
+
+                    FileChannel inChannel = new FileInputStream(src).getChannel();
+                    FileChannel outChannel = new FileOutputStream(dst).getChannel();
+
+                    try {
+                        inChannel.transferTo(0, inChannel.size(), outChannel);
+                    } finally {
+                        if (inChannel != null)
+                            inChannel.close();
+
+                        if (outChannel != null)
+                            outChannel.close();
+
+                        src.delete();
+                    }
+
+                    FileInputStream inputStream = new FileInputStream(dst);
+
+                    forum = new Forum();
+                    forum.setTitle(title);
+                    forum.setQuestion(filename);
+                    forum.setDate(date);
+
+                    return business.addQuestion(data.getUsername(), forum, inputStream) ? forum : null;
+                }
+
+                @Override
+                protected void onFinish(Forum result) {
+                    if (result != null) {
+                        Forums forums = LocalStorage.getForums(context);
+                        if (forums != null) {
+                            forums.getForums().add(result);
+                            forums.setTotal(forums.getTotal() + 1);
+                        } else {
+                            forums = new Forums();
+                            forums.setTotal(1);
+
+                            List<Forum> list = new ArrayList<>();
+                            list.add(result);
+                            forums.setForums(list);
+                        }
+                        LocalStorage.putForums(context, forums);
+                        recreate();
+                    }
+                }
+            }.execute();
+        } else
+            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case WRITE_PERMISSION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    sendSolution();
+                } else {
+                    Toast.makeText(this, R.string.permission_needed, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+        }
     }
 
 

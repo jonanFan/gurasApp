@@ -1,11 +1,13 @@
 package eus.ehu.tta.gurasapp;
 
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import eus.ehu.tta.gurasapp.presentation.NetworkChecker;
 import eus.ehu.tta.gurasapp.presentation.ProgressTask;
 
 public class RegisterActivity extends BaseActivity {
@@ -25,24 +27,33 @@ public class RegisterActivity extends BaseActivity {
 
         if (!username.isEmpty() && !email.isEmpty() && !pass.isEmpty()) {
             if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                new ProgressTask<String>(this, getString(R.string.wait_register)) {
-                    @Override
-                    protected String background() throws Exception {
 
-                        return business.register(username, email, pass);
+                int connType = NetworkChecker.getConnType(this);
+                if (connType != -1) {
+
+                    if (connType != ConnectivityManager.TYPE_WIFI) {
+                        Toast.makeText(this, R.string.no_wifi_warning, Toast.LENGTH_SHORT).show();
                     }
 
-                    @Override
-                    protected void onFinish(String result) {
-                        if (result != null) {
-                            data.putUsername(result);
-                            startBaseActivity(LoginActivity.class);
-                        } else
-                            Toast.makeText(context, R.string.already_user, Toast.LENGTH_SHORT).show();
-                    }
-                }.execute();
+                    new ProgressTask<String>(this, getString(R.string.wait_register)) {
+                        @Override
+                        protected String background() throws Exception {
 
+                            return business.register(username, email, pass);
+                        }
 
+                        @Override
+                        protected void onFinish(String result) {
+                            if (result != null) {
+                                data.putUsername(result);
+                                startBaseActivity(LoginActivity.class);
+                            } else
+                                Toast.makeText(context, R.string.already_user, Toast.LENGTH_SHORT).show();
+                        }
+                    }.execute();
+
+                } else
+                    Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
             } else
                 Toast.makeText(this, R.string.incorrect_email, Toast.LENGTH_SHORT).show();
         } else

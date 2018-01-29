@@ -74,13 +74,13 @@ public class MultiplesActivity extends BaseActivity implements View.OnClickListe
         ((LinearLayout) findViewById(R.id.multiplesContent)).addView(layout);
 
         TextView title = new TextView(this);
-        title.setText("titulo"); //TODO
+        title.setText(R.string.start_multiples_title);
         title.setGravity(Gravity.CENTER);
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setCustomTitle(title);
-        alertDialog.setMessage(String.valueOf(lastValue));
-        alertDialog.setNeutralButton("si", null); //TODO
+        alertDialog.setMessage(String.format("%s: %s\n%s: %s", getResources().getString(R.string.start_multiples_player), getResources().getString(playerTurn == RED_PLAYER ? R.string.red : R.string.blue), getResources().getString(R.string.start_multiples_number), String.valueOf(lastValue)));
+        alertDialog.setNeutralButton("OK", null);
         alertDialog.setCancelable(false);
         AlertDialog dialog = alertDialog.show();
 
@@ -122,18 +122,18 @@ public class MultiplesActivity extends BaseActivity implements View.OnClickListe
             v.setEnabled(false);
         } else {
             TextView title = new TextView(this);
-            title.setText("SE ACABO");
+            title.setText(getResources().getString(R.string.game_over));
             title.setGravity(Gravity.CENTER);
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             alertDialog.setCustomTitle(title);
             if (redTeamValue == blueTeamValue) {
                 if (redTeamValue == 0) {
-                    alertDialog.setMessage("MALOS!");
+                    alertDialog.setMessage(getResources().getString(R.string.multiples_try_again));
                 } else
-                    alertDialog.setMessage("EMPATE");
+                    alertDialog.setMessage(getResources().getString(R.string.tie));
             } else {
-                alertDialog.setMessage("El ganador: " + (redTeamValue > blueTeamValue ? "RED" : "BLUE"));
+                alertDialog.setMessage(getResources().getString(R.string.winner) + ": " + getResources().getString((redTeamValue > blueTeamValue ? R.string.red : R.string.blue)));
             }
             alertDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
                 @Override

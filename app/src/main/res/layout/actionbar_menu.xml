@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:src="@android:drawable/ic_delete"
+        android:tint="@color/white"
         android:background="@null"
         android:layout_gravity="center"
         android:onClick="logout" />

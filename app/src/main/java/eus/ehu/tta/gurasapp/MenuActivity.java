@@ -33,11 +33,12 @@ public class MenuActivity extends BaseActivity {
 
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_menu, null);
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(actionBarLayout);
-
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(actionBarLayout);
+        }
     }
 
     public void toMath(View view) {
@@ -57,14 +58,13 @@ public class MenuActivity extends BaseActivity {
         final Context context = this;
 
         TextView title = new TextView(this);
-        title.setText("titulo");
+        title.setText(getResources().getString(R.string.exit_title));
         title.setGravity(Gravity.CENTER);
+
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        //TODO
         alertDialog.setCustomTitle(title);
-        //TODO
-        alertDialog.setMessage("TE SALES");
-        alertDialog.setPositiveButton("si", new DialogInterface.OnClickListener() {
+        alertDialog.setMessage(getResources().getString(R.string.exit_text));
+        alertDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -80,6 +80,7 @@ public class MenuActivity extends BaseActivity {
                     }
 
                     Preferences.clearPreferences(context);
+                    data.putUsername(null);
                     startBaseActivityWithFlags(IntroActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
 
                 } else {
@@ -87,6 +88,7 @@ public class MenuActivity extends BaseActivity {
                 }
             }
         });
+        alertDialog.setNegativeButton(R.string.no, null);
         alertDialog.setCancelable(false);
         alertDialog.show();
     }
@@ -113,6 +115,7 @@ public class MenuActivity extends BaseActivity {
                 }
 
                 Preferences.clearPreferences(this);
+                data.putUsername(null);
                 startBaseActivityWithFlags(IntroActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
 
                 break;

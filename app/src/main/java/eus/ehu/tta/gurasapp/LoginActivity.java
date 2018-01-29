@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import java.util.List;
 import eus.ehu.tta.gurasapp.model.Forum;
 import eus.ehu.tta.gurasapp.model.Forums;
 import eus.ehu.tta.gurasapp.presentation.LocalStorage;
+import eus.ehu.tta.gurasapp.presentation.NetworkChecker;
 import eus.ehu.tta.gurasapp.presentation.Preferences;
 import eus.ehu.tta.gurasapp.presentation.ProgressTask;
 
@@ -47,32 +49,40 @@ public class LoginActivity extends BaseActivity {
 
         if (!login.isEmpty() && !pass.isEmpty()) {
 
-            new ProgressTask<Boolean>(this, getString(R.string.wait_login)) {
-                @Override
-                protected Boolean background() throws Exception {
-                    return business.login(login, pass);
+            int connType = NetworkChecker.getConnType(this);
+            if (connType != -1) {
+
+                if (connType != ConnectivityManager.TYPE_WIFI) {
+                    Toast.makeText(this, R.string.no_wifi_warning, Toast.LENGTH_SHORT).show();
                 }
+                new ProgressTask<Boolean>(this, getString(R.string.wait_login)) {
+                    @Override
+                    protected Boolean background() throws Exception {
+                        return business.login(login, pass);
+                    }
 
-                @Override
-                protected void onFinish(Boolean result) {
-                    if (result) {
-                        if (storeData) {
-                            Preferences.setLogin(context, login);
-                            Preferences.setPassword(context, pass);
-                        }
+                    @Override
+                    protected void onFinish(Boolean result) {
+                        if (result) {
+                            if (storeData) {
+                                Preferences.setLogin(context, login);
+                                Preferences.setPassword(context, pass);
+                            }
 
-                        data.putUsername(login);
+                            data.putUsername(login);
 
-                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                            getForums();
-                            startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
-                        } else {
-                            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
-                        }
-                    } else
-                        Toast.makeText(context, getString(R.string.bad_login), Toast.LENGTH_SHORT).show();
-                }
-            }.execute();
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                getForums();
+                                startBaseActivityWithFlags(MenuActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //Ñapa para hacer que cuando le des a tras en el menu se salga la app
+                            } else {
+                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+                            }
+                        } else
+                            Toast.makeText(context, getString(R.string.bad_login), Toast.LENGTH_SHORT).show();
+                    }
+                }.execute();
+            } else
+                Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
 
         } else
             Toast.makeText(this, R.string.not_filled, Toast.LENGTH_SHORT).show();
@@ -105,19 +115,20 @@ public class LoginActivity extends BaseActivity {
                     final List<Forum> forumList = result.getForums();
                     for (int i = 0; i < result.getTotal(); i++) {
                         final int finalI = i;
-                        new ProgressTask<Void>(context, null) {
-                            @Override
-                            protected Void background() throws Exception {
-                                business.getForumQuestion(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR), forumList.get(finalI).getQuestion());
-                                return null;
-                            }
+                        if (NetworkChecker.isConnected(context)) {
 
-                            @Override
-                            protected void onFinish(Void result) {
-                                Log.d(GURASAPP_ACTIVITY_TAG, "He llegado al finish"); //TODO
-                            }
-                        }.execute();
+                            new ProgressTask<Void>(context, null) {
+                                @Override
+                                protected Void background() throws Exception {
+                                    business.getForumQuestion(String.format("%s/%s/%s", Environment.getExternalStorageDirectory(), getApplicationContext().getPackageName(), AUDIO_DIR), forumList.get(finalI).getQuestion());
+                                    return null;
+                                }
 
+                                @Override
+                                protected void onFinish(Void result) {
+                                }
+                            }.execute();
+                        }
                     }
                 } else {
                     LocalStorage.deleteForums(context);
@@ -142,7 +153,11 @@ public class LoginActivity extends BaseActivity {
             case WRITE_PERMISSION_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getForums();
+
+                    if (NetworkChecker.isConnected(this)) {
+                        getForums();
+                    } else
+                        Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, R.string.permission_needed, Toast.LENGTH_SHORT).show();
                 }

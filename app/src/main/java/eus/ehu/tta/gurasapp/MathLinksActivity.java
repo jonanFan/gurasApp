@@ -1,6 +1,7 @@
 package eus.ehu.tta.gurasapp;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import eus.ehu.tta.gurasapp.model.Tests;
+import eus.ehu.tta.gurasapp.presentation.NetworkChecker;
 import eus.ehu.tta.gurasapp.presentation.ProgressTask;
 
 public class MathLinksActivity extends BaseActivity {
@@ -21,10 +23,10 @@ public class MathLinksActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_links);
 
-        TextView textView = (TextView) findViewById(R.id.linkTitle);
+        TextView textView = findViewById(R.id.linkTitle);
         textView.setText(R.string.subject_1_topic);
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.playLayout);
+        LinearLayout linearLayout = findViewById(R.id.playLayout);
 
         Button buttonTest = new Button(this);
         buttonTest.setText(R.string.test);
@@ -53,22 +55,30 @@ public class MathLinksActivity extends BaseActivity {
 
     public void toTest(View view) {
 
+        int connType = NetworkChecker.getConnType(this);
+        if (connType != -1) {
 
-        new ProgressTask<Tests>(this, getString(R.string.loading_test)) {
-            @Override
-            protected Tests background() throws Exception {
-                return business.getTest(data.getUsername());
+            if (connType != ConnectivityManager.TYPE_WIFI) {
+                Toast.makeText(this, R.string.no_wifi_warning, Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            protected void onFinish(Tests result) {
-                if (result != null) {
-                    data.putTests(result);
-                    startBaseActivity(TestActivity.class);
-                } else
-                    Toast.makeText(context, getString(R.string.no_test), Toast.LENGTH_SHORT).show();
-            }
-        }.execute();
+            new ProgressTask<Tests>(this, getString(R.string.loading_test)) {
+                @Override
+                protected Tests background() throws Exception {
+                    return business.getTest(data.getUsername());
+                }
+
+                @Override
+                protected void onFinish(Tests result) {
+                    if (result != null) {
+                        data.putTests(result);
+                        startBaseActivity(TestActivity.class);
+                    } else
+                        Toast.makeText(context, getString(R.string.no_test), Toast.LENGTH_SHORT).show();
+                }
+            }.execute();
+        } else
+            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
     }
 
     public void toMultiplos(View view) {

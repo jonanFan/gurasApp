@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -89,7 +90,7 @@ public class MatchActivity extends BaseActivity {
         GridLayout layout = findViewById(R.id.matchOptions);
         Log.d(GURASAPP_ACTIVITY_TAG, "RELOAD");
         for (int i = 0; i < layout.getChildCount(); i++) {
-            Spinner spinner = (Spinner) ((RelativeLayout) layout.getChildAt(i)).getChildAt(0);
+            Spinner spinner = (Spinner) ((LinearLayout) ((LinearLayout) layout.getChildAt(i)).getChildAt(1)).getChildAt(0);
             for (int j = 1; j < spinner.getAdapter().getCount(); j++) {
                 if (selected.get(i) != -1 && spinner.getItemAtPosition(j).toString().compareTo(solutions.get(selected.get(i))) == 0) {
                     spinner.setSelection(j);
@@ -113,16 +114,14 @@ public class MatchActivity extends BaseActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, elements) {
                 @Override
                 public boolean isEnabled(int position) {
-                    if (position == 0)
-                        return false;
-                    else
-                        return true;
+                    return position != 0;
                 }
 
                 @Override
                 public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                     View view = super.getDropDownView(position, convertView, parent);
                     TextView text = (TextView) view;
+                    text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                     if (position == 0)
                         text.setTextColor(Color.GRAY);
                     else
@@ -140,7 +139,7 @@ public class MatchActivity extends BaseActivity {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    ((RelativeLayout) parent.getParent()).setBackgroundColor(Color.TRANSPARENT);
+                    ((LinearLayout) parent.getParent()).setBackgroundColor(Color.TRANSPARENT);
 
                     Log.d(GURASAPP_ACTIVITY_TAG, "El position es " + position + " y El dato es " + parent.getItemAtPosition(position) + " y Index es " + solutions.indexOf(parent.getItemAtPosition(position)));
                     selected.set(parent.getId(), solutions.indexOf(parent.getItemAtPosition(position)));
@@ -155,11 +154,38 @@ public class MatchActivity extends BaseActivity {
                 }
             });
 
-            RelativeLayout spinner_layout = new RelativeLayout(this);
-            spinner_layout.setGravity(RelativeLayout.CENTER_HORIZONTAL);
+            LinearLayout content_layout = new LinearLayout(this);
+            content_layout.setOrientation(LinearLayout.VERTICAL);
+            content_layout.setGravity(Gravity.CENTER_HORIZONTAL);
+
+            LinearLayout.LayoutParams paramsText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            paramsText.setMargins(0, 20, 0, 30);
+
+
+            TextView textView = new TextView(this);
+            textView.setText(String.format("%s %s", getResources().getString(R.string.choice), (i + 1)));
+            textView.setGravity(Gravity.CENTER_HORIZONTAL);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            textView.setLayoutParams(paramsText);
+
+
+            // spinner_layout.setGravity();
             spinner.setId(i);
+
+            /*RelativeLayout.LayoutParams params1=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            params1.addRule(RelativeLayout.ABOVE, spinner.getId());
+            textView.setLayoutParams(params1);*/
+
+            content_layout.addView(textView);
+
+            LinearLayout spinner_layout = new LinearLayout(this);
+            spinner_layout.setOrientation(LinearLayout.VERTICAL);
+            spinner_layout.setGravity(Gravity.CENTER_HORIZONTAL);
+
             spinner_layout.addView(spinner);
-            layout.addView(spinner_layout);
+
+            content_layout.addView(spinner_layout);
+            layout.addView(content_layout);
         }
     }
 
@@ -170,7 +196,7 @@ public class MatchActivity extends BaseActivity {
         Dialog dialog = new Dialog(this, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
         dialog.setContentView(R.layout.dialog_img);
 
-        PhotoView photo = (PhotoView) dialog.findViewById(R.id.photoView);
+        PhotoView photo = dialog.findViewById(R.id.photoView);
         photo.setImageDrawable(image.getDrawable());
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
@@ -181,7 +207,7 @@ public class MatchActivity extends BaseActivity {
         checked = true;
         GridLayout layout = findViewById(R.id.matchOptions);
         for (int i = 0; i < layout.getChildCount(); i++) {
-            RelativeLayout spinner_layout = (RelativeLayout) layout.getChildAt(i);
+            LinearLayout spinner_layout = (LinearLayout) ((LinearLayout) layout.getChildAt(i)).getChildAt(1);
             Spinner spinner = (Spinner) spinner_layout.getChildAt(0);
             if (selected.get(i) == i) {
                 spinner_layout.setBackgroundColor(getResources().getColor(R.color.green));

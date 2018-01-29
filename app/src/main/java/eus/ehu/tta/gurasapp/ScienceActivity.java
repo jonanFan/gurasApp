@@ -1,14 +1,17 @@
 package eus.ehu.tta.gurasapp;
 
 import android.app.Dialog;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.IOException;
 
+import eus.ehu.tta.gurasapp.presentation.NetworkChecker;
 import eus.ehu.tta.gurasapp.view.AudioPlayer;
 
 public class ScienceActivity extends BaseActivity {
@@ -20,21 +23,28 @@ public class ScienceActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_science);
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.audioScience);
+        LinearLayout linearLayout = findViewById(R.id.audioScience);
 
+        int connType = NetworkChecker.getConnType(this);
+        if (connType != -1) {
 
-        audioPlayer = new AudioPlayer(linearLayout, new Runnable() {
-            @Override
-            public void run() {
-                finish();
+            if (connType != ConnectivityManager.TYPE_WIFI) {
+                Toast.makeText(this, R.string.no_wifi_warning, Toast.LENGTH_SHORT).show();
             }
-        });
+            audioPlayer = new AudioPlayer(linearLayout, new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            });
 
-        try {
-            audioPlayer.setAudioUri(getString(R.string.science_audio));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                audioPlayer.setAudioUri(getString(R.string.science_audio));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else
+            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -45,13 +55,15 @@ public class ScienceActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        audioPlayer.stop();
+        if (audioPlayer != null)
+            audioPlayer.stop();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        audioPlayer.release();
+        if (audioPlayer != null)
+            audioPlayer.release();
     }
 
     @Override
@@ -70,7 +82,7 @@ public class ScienceActivity extends BaseActivity {
         dialog.setContentView(R.layout.dialog_img);
 
 
-        PhotoView photo = (PhotoView) dialog.findViewById(R.id.photoView);
+        PhotoView photo = dialog.findViewById(R.id.photoView);
         photo.setImageResource(R.drawable.science);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();

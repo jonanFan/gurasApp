@@ -81,6 +81,23 @@
     <string name="no_micro">Ez dago mikrofonorik</string>
     <string name="title_needed">Titulua sartu behar da</string>
     <string name="permission_needed">App-ari baimena eman behar zaio ondo funtzionatzeko</string>
+    <string name="exit_title">Itxi saioa</string>
+    <string name="exit_text">Sesioa itxi nahi duzu?</string>
+    <string name="yes">Bai</string>
+    <string name="no">Ez</string>
+    <string name="start_multiples_title">Jokoa hasten…</string>
+    <string name="start_multiples_player">Hasten duen jolakaria</string>
+    <string name="red">Gorria</string>
+    <string name="blue">Urdina</string>
+    <string name="start_multiples_number">Lehenengo zenbakia</string>
+    <string name="game_over">AMAITU DA!</string>
+    <string name="winner">Irabazlea</string>
+    <string name="tie">BERDINKETA!</string>
+    <string name="multiples_try_again">Huts eta huts, saiatu berriro…</string>
+    <string name="test_finish">Testa amaitu da. Emaitza:</string>
+    <string name="no_wifi_warning">Kontuz, sare mugikorra erabiltzen zaude</string>
+    <string name="no_internet">Ez dago internet konekziorik</string>
+    <string name="choice">Aukera</string>
 
 
 </resources>

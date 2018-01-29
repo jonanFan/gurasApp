@@ -61,7 +61,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
         int languageIndex = (language == null || language.compareTo(CASTELLANO) == 0) ? 0 : 1;
         Test test = tests.getTests().get(index);
 
-        TextView title = (TextView) findViewById(R.id.testTitle);
+        TextView title = findViewById(R.id.testTitle);
 
         title.setText(test.getQuestion().get(languageIndex));
         title.setTextSize(20);
@@ -86,7 +86,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
 
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(TestActivity.this, "Test completado, " + correct + "/" + tests.getTotal(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TestActivity.this, getResources().getString(R.string.test_finish) + " " + correct + "/" + tests.getTotal(), Toast.LENGTH_LONG).show();
                     finish();
                 }
             });
@@ -95,7 +95,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
 
     public void checkTest(View view) {
         RadioGroup choices = findViewById(R.id.testChoices);
-        int correctAns = 0;
+        int correctAns;
         for (int i = 0; i < choices.getChildCount(); i++) {
             choices.getChildAt(i).setEnabled(false);
         }

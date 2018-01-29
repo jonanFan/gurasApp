@@ -81,6 +81,23 @@
     <string name="no_app">No app</string>
     <string name="title_needed">Title needed</string>
     <string name="permission_needed">Permissions must be accepted</string>
+    <string name="exit_title">Exit?</string>
+    <string name="exit_text">Do you want to log out?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="start_multiples_title">Starting game</string>
+    <string name="start_multiples_player">Starting player</string>
+    <string name="red">Red</string>
+    <string name="blue">Blue</string>
+    <string name="start_multiples_number">Starting number</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="winner">The winner</string>
+    <string name="tie">TIE</string>
+    <string name="multiples_try_again">Zero points, try again…</string>
+    <string name="test_finish">Test finished. Result:</string>
+    <string name="no_wifi_warning">Warning. No Wifi</string>
+    <string name="no_internet">No internet</string>
+    <string name="choice">Choice</string>
 
 
 </resources>
