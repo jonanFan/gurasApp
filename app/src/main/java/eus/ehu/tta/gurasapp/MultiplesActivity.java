@@ -60,10 +60,13 @@ public class MultiplesActivity extends BaseActivity implements View.OnClickListe
                 Button boardButton = new Button(this);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f), GridLayout.spec(GridLayout.UNDEFINED, 1f));
                 params.width = 0;
+                params.height = 0;
                 //  params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
                 //  params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
 
                 boardButton.setLayoutParams(params);
+                if (lastValue == value)
+                    boardButton.setEnabled(false);
                 boardButton.setText(String.valueOf(value++));
                 boardButton.setOnClickListener(this);
                 layout.addView(boardButton);

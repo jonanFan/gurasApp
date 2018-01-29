@@ -147,6 +147,14 @@ public class ForumsActivity extends BaseActivity {
     }
 
     public void record(View view) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            record();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
+        }
+    }
+
+    private void record() {
         EditText editText = dialog.findViewById(R.id.recordTitle);
         String title = editText.getText().toString();
 
@@ -191,13 +199,7 @@ public class ForumsActivity extends BaseActivity {
 
                 if (path != null && !path.isEmpty()) {
                     Log.d(GURASAPP_ACTIVITY_TAG, "El path es " + path);
-
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
-                        sendSolution();
-                    } else {
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, DELETE_PERMISSION_CODE);
-                    }
+                    sendSolution();
                 }
             }
         } finally
@@ -292,7 +294,7 @@ public class ForumsActivity extends BaseActivity {
             case WRITE_PERMISSION_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    sendSolution();
+                    record();
                 } else {
                     Toast.makeText(this, R.string.permission_needed, Toast.LENGTH_SHORT).show();
                 }

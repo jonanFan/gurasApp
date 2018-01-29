@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -13,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -132,7 +132,7 @@ public class MatchActivity extends BaseActivity {
             };
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             Spinner spinner = new Spinner(this);
-            Spinner.LayoutParams params = new Spinner.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            Spinner.LayoutParams params = new Spinner.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             spinner.setLayoutParams(params);
             spinner.setGravity(Gravity.CENTER_HORIZONTAL);
             spinner.setAdapter(adapter);
@@ -155,6 +155,11 @@ public class MatchActivity extends BaseActivity {
             });
 
             LinearLayout content_layout = new LinearLayout(this);
+            GridLayout.LayoutParams contentParams = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f), GridLayout.spec(GridLayout.UNDEFINED, 1f));
+            contentParams.width = 0;
+            contentParams.height = 0;
+            content_layout.setLayoutParams(contentParams);
+
             content_layout.setOrientation(LinearLayout.VERTICAL);
             content_layout.setGravity(Gravity.CENTER_HORIZONTAL);
 

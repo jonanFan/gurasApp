@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -57,6 +59,12 @@ public class VideoPlayer {
 
         video.setVerticalScrollBarEnabled(false);
         video.setHorizontalScrollBarEnabled(false);
+        video.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return (event.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });
         return video;
     }
 }

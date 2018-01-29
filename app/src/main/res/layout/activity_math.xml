@@ -14,9 +14,8 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_weight="1"
             android:gravity="center"
             android:text="@string/subject_1_topic"
             android:textAlignment="center"
